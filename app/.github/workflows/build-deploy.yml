@@ -2,14 +2,32 @@ name: Build and Deploy Code
 
 on: [push, pull_request]
 
+#env: 
+   # DATABASE_HOSTNAME : localhost
+   # DATABASE_PORT: 5432
+
 jobs: 
   job1:
+    env: 
+     DATABASE_HOSTNAME : localhost
+     DATABASE_PORT: 5432
     runs-on: ubuntu-latest
     steps:
         - name: pulling git repo
           uses: actions/checkout@v2
-        - name: say hi to sanjeev
-          run: echo "hi sanjeev"
+        - name: Install python version 3.9
+          uses: actions/setup-python@v2
+          with:
+            python-version:3.9
+        -name: update pip
+         run: python -m pip install --upgrade pip
+        -name: install all dependencies
+         run: pip install -r requirements.txt
+        -name: test with pytest
+         run: | 
+           pip install pytest
+           pytest 
+
         
 
 # on:
